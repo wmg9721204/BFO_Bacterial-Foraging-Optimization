@@ -2,6 +2,10 @@ using LinearAlgebra ## "norm"
 using StatsBase ## for function "sample"
 ## This function computes the classical (non-adaptive) BFO (Bacterial Foraging Optimization)
 ## Inputs:
+## N_A = 2, number of adaptions (every N_A iterations)
+## t_max = 100 , max of t, where t is the index of adaption iteration
+## C_init = (Range[2]-Range[1])/S; ## initial run-length unit
+## alpha = 10, paramter for "run-length unit" decay
 ## J = a function with domain R^n
 ## n = 2, dimension of the input of J
 ## Range = [-10,10], exploration range: Range^n
@@ -12,7 +16,7 @@ using StatsBase ## for function "sample"
 ## Nre = number of reproductive steps
 ## Ned = elimination and dispersal steps
 ## Ped = probability of elimination
-## Ci = (Range[2]-Range[1])/S; ## run-length unit
+## Ci, run-length unit; will be adapted gradually
 ## Output: a dictionary that stores
 ## (1) the minimum value of J
 ## (2) the point achieving this minimu value
