@@ -1,5 +1,5 @@
 # BFO_Bacterial-Foraging-Optimization
-Includes Julia codes for classical BFO and two adaptive BFO <br>
+Julia codes for classical BFO and two adaptive BFO. <br>
 The main reference for this project is 
 > Hanning Chen, Yunlong Zhu, and Kunyuan Hu, “Adaptive Bacterial Foraging Optimization,” Abstract and Applied Analysis, vol. 2011, Article ID 108269, 27 pages, 2011. https://doi.org/10.1155/2011/108269.
 
