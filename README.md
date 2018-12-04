@@ -5,5 +5,5 @@ The main reference for this project is
 
 Three functions are written in Julia: <br>
 1. The classical BFO
-2. $ABFO_0$ as described in the reference
-3. $ABFO_1$ as described in the reference
+2. <img src="https://latex.codecogs.com/gif.latex?\text{ABFO}_0" /> as described in the reference
+3. <img src="https://latex.codecogs.com/gif.latex?\text{ABFO}_1" /> as described in the reference
