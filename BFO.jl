@@ -22,7 +22,7 @@ function BFO(J, Range, n = 2::Int, S = 10::Int, Sr = 4::Int, Nc = 20::Int, Ns = 
     ## randomly generate S bacteria in Range^n
     B_loc = (Range[2]-Range[1])*rand(n,S).+Range[1] ## B_loc = Bacteria locations
     ## a dictionary recording the path of bacterium i
-    Path_Dict = Dict(i=>zeros(n,0) for i=1:S)
+    Path_Dict = Dict(i=>[zeros(n,0) B_loc[:,i]] for i=1:S)
     for l = 1:Ned ## index of elimination-dispersal steps
         for k = 1:Nre ## index of reproductive steps
             for j = 1:Nc ## index of chemotactic steps
@@ -47,7 +47,9 @@ function BFO(J, Range, n = 2::Int, S = 10::Int, Sr = 4::Int, Nc = 20::Int, Ns = 
                         end
                     end
                     ## update the path of bacterium i
-                    Path_Dict[i] = [Path_Dict[i] Path_i] ## update the path of bacterium i
+                    if Path_Dict[i][:,end]!=B_loc[:,i]
+                        Path_Dict[i] = [Path_Dict[i] B_loc[:,i]]
+                    end
                 end
             end
             if k<Nre
@@ -61,7 +63,9 @@ function BFO(J, Range, n = 2::Int, S = 10::Int, Sr = 4::Int, Nc = 20::Int, Ns = 
                 
                 ## update the path dictionary
                 for i = 1:S
-                    Path_Dict[i] = [Path_Dict[i] B_loc[:,i]]
+                    if Path_Dict[i][:,end]!=B_loc[:,i]
+                        Path_Dict[i] = [Path_Dict[i] B_loc[:,i]]
+                    end
                 end
             end
         end
@@ -75,7 +79,9 @@ function BFO(J, Range, n = 2::Int, S = 10::Int, Sr = 4::Int, Nc = 20::Int, Ns = 
             B_loc = sortslices([[Alive'; B_loc[:,Alive]] [Kill';(Range[2]-Range[1])*rand(n,length(Kill)).+Range[1]]], dims = 2)[2:n+1,:]
             ## update the path dictionary
             for i = 1:S
-                Path_Dict[i] = [Path_Dict[i] B_loc[:,i]]
+                if Path_Dict[i][:,end]!=B_loc[:,i]
+                    Path_Dict[i] = [Path_Dict[i] B_loc[:,i]]
+                end
             end
         end
     end
