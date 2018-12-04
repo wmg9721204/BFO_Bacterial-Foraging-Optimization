@@ -17,7 +17,7 @@ using StatsBase ## for function "sample"
 ## (1) the minimum value of J
 ## (2) the point achieving this minimu value
 ## (3) the path of each bacterium (for plotting illustration)
-function BFO(J, Range, n = 2::Int, S = 10::Int, Sr = 4::Int, Nc = 20::Int, Ns = 5::Int, 
+function BFO(J, Range; n = 2::Int, S = 10::Int, Sr = 4::Int, Nc = 20::Int, Ns = 5::Int, 
         Nre = 50::Int, Ned = 10::Int, Ped = 0.3::Float64, Ci = ((Range[2]-Range[1])/S)::Float64)
     ## randomly generate S bacteria in Range^n
     B_loc = (Range[2]-Range[1])*rand(n,S).+Range[1] ## B_loc = Bacteria locations
