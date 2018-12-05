@@ -1,24 +1,27 @@
 using LinearAlgebra ## "norm"
 using StatsBase ## for function "sample"
-## This function computes the classical (non-adaptive) BFO (Bacterial Foraging Optimization)
-## Inputs:
-## J = a function with domain R^n
-## n = 2, dimension of the input of J
-## Range = [-10,10], exploration range: Range^n
-## S = 10, number of bacteria
-## Sr = number of bacteria removed in reproductive step
-## Nc = number of chemotactic steps
-## Ns = number of swim steps
-## Nre = number of reproductive steps
-## Ned = elimination and dispersal steps
-## Ped = probability of elimination
-## Ci = (Range[2]-Range[1])/S; ## run-length unit
-## Output: a dictionary that stores
-## (1) the minimum value of J
-## (2) the point achieving this minimu value
-## (3) the path of each bacterium (for plotting illustration)
+"""
+**BFO** is a function that computes the **classical (non-adaptive) BFO (Bacterial Foraging Optimization)**<br><br>
+**Inputs**:
+1. **J** = a function with domain R^n
+2. **Range** = [-10,10], exploration range: Range^n <br><br>
+
+3. **n** = 2, dimension of the input of J
+4. **S** = 10, number of bacteria
+5. **Sr** = 4,  number of bacteria removed in reproductive step
+6. **Nc** = 20, number of chemotactic steps
+7. **Ns** = 5, number of swim steps
+8. **Nre** = 10, number of reproductive steps
+9. **Ned** = 10, elimination and dispersal steps
+10. **Ped** = 0.3, probability of elimination
+11. **Ci** = (Range[2]-Range[1])/S, the run-length unit
+**Output**: a dictionary that stores
+1. the minimum value of J
+2. the point achieving this minimu value
+3. the path of each bacterium (for plotting illustration)
+"""
 function BFO(J, Range; n = 2::Int, S = 10::Int, Sr = 4::Int, Nc = 20::Int, Ns = 5::Int, 
-        Nre = 50::Int, Ned = 10::Int, Ped = 0.3::Float64, Ci = ((Range[2]-Range[1])/S)::Float64)
+        Nre = 10::Int, Ned = 10::Int, Ped = 0.3::Float64, Ci = ((Range[2]-Range[1])/S)::Float64)
     ## randomly generate S bacteria in Range^n
     B_loc = (Range[2]-Range[1])*rand(n,S).+Range[1] ## B_loc = Bacteria locations
     ## a dictionary recording the path of bacterium i

@@ -1,30 +1,32 @@
 using LinearAlgebra ## "norm"
 using StatsBase ## for function "sample"
-## This function computes the classical (non-adaptive) BFO (Bacterial Foraging Optimization)
-## Inputs:
-## N_A = 2, number of adaptions (every N_A iterations)
-## t_max = 100 , max of t, where t is the index of adaption iteration
-## C_init = (Range[2]-Range[1])/S; ## initial run-length unit
-## alpha = 10, paramter for "run-length unit" decay
-## J = a function with domain R^n
-## n = 2, dimension of the input of J
-## Range = [-10,10], exploration range: Range^n
-## S = 10, number of bacteria
-## Sr = number of bacteria removed in reproductive step
-## Nc = number of chemotactic steps
-## Ns = number of swim steps
-## Nre = number of reproductive steps
-## Ned = elimination and dispersal steps
-## Ped = probability of elimination
-## Ci, run-length unit; will be adapted gradually
-## Output: a dictionary that stores
-## (1) the minimum value of J
-## (2) the point achieving this minimu value
-## (3) the path of each bacterium (for plotting illustration)
+"""
+This function computes the **adaptive BFO (Bacterial Foraging Optimization)**
+**Inputs**: <br>
+1. **J** = a function with domain R^n <br>
+2. **Range** = [-10,10], exploration range: Range^n <br><br>
+3. **N_A** = 2, number of adaptions (every N_A iterations) <br>
+4. **t_max** = 100 , max of t, where t is the index of adaption iteration <br>
+5. **C_init** = (Range[2]-Range[1])/S, initial run-length unit <br>
+6. **alpha** = 10, paramter for "run-length unit" decay <br>
+7. **n** = 2, dimension of the input of J <br>
+8. **S** = 10, number of bacteria <br>
+9. **Sr** = 4, number of bacteria removed in reproductive step <br>
+10. **Nc** = 20, number of chemotactic steps <br>
+11. **Ns** = 5, number of swim steps <br>
+12. **Nre** = 50, number of reproductive steps <br>
+13. **Ned** = 10, elimination and dispersal steps <br>
+14. **Ped** = 0.3, probability of elimination <br>
+
+**Output**: a dictionary that stores <br>
+1. the minimum value of J <br>
+2. the point achieving this minimu value <br>
+3. the path of each bacterium (for plotting illustration) <br>
+"""
 function ABFO0(J, Range; alpha = 10, N_A = 2, t_max = 10, n = 2::Int, S = 10::Int, Sr = 4::Int, Nc = 20::Int, 
         Ns = 5::Int, Nre = 50::Int, Ned = 10::Int, Ped = 0.3::Float64, C_init = ((Range[2]-Range[1])/S)::Float64)
     ## randomly generate S bacteria in Range^n
-    Ci = copy(C_init)
+    Ci = copy(C_init) ## run-length unit; will be adapted gradually
     B_loc = (Range[2]-Range[1])*rand(n,S).+Range[1] ## B_loc = Bacteria locations
     ## a dictionary recording the path of bacterium i
     Path_Dict = Dict(i=>[zeros(n,0) B_loc[:,i]] for i=1:S)
