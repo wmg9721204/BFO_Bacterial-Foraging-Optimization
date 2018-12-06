@@ -16,7 +16,7 @@ using Statistics ## "mean"
 7. **Nre** = 5, number of reproductive steps
 8. **Ned** = 2, elimination and dispersal steps
 9. **Ped** = 0.3, probability of elimination
-10. **Ci** = (minimum(Range[:,2].-Range[:,1])/S), the run-length unit
+10. **Ci** = (mean(Range[:,2].-Range[:,1])/S), the run-length unit
 **Output**: a dictionary that stores
 1. the minimum value of J
 2. the point achieving this minimu value
@@ -124,7 +124,7 @@ function ReproductionStep(J, B_loc::Array{Float64,2}, Sr::Int, S::Int, n::Int)
 end
 
 """
-**ElimDispStep** is a function performing the reproduction step in BFO.
+**ElimDispStep** is a function performing the elimination-dispersal step in BFO.
 """
 function ElimDispStep(B_loc::Array{Float64,2}, Ped::Float64, Range::Array{Float64,2}, S::Int, n::Int)
     Path = Dict{Int,Array{Float64,2}}(i=>zeros(n,0) for i=1:S)
