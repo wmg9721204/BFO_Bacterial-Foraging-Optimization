@@ -72,7 +72,7 @@ end
 **ChemotacticStep** is a function performing the chemotactic step in BFO.
 """
 function ChemotacticStep(J, Range::Array{Float64,2}, S::Int, Ns::Int, Ci::Float64, B_loc::Array{Float64,2})
-    Path = Dict{Int,Array{Float64,2}}(i=>zeros(size(Range,1),2) for i=1:S)
+    Path = Dict{Int, Array{Float64,2}}(i=>zeros(size(Range,1),2) for i=1:S)
     ToSwim = collect(1:S) ## monitor the swimming bacteria
     Tumble = RandUnit(Range,S)
     m = 0 ## index of swimming
@@ -84,13 +84,12 @@ function ChemotacticStep(J, Range::Array{Float64,2}, S::Int, Ns::Int, Ci::Float6
         B_loc_new[:,ToSwim] = B_loc[:,ToSwim].+Ci*Tumble[:,ToSwim]
                     
         ## Mirror back the out-of-range bacteria
-        Range_tail = Range[:,2]
-        Range_head = Range[:,1]
+        ## Range_tail = Range[:,2]
+        ## Range_head = Range[:,1]
         ## 1. mirror back bacteria tumbling out from below
-        B_loc_new[:,ToSwim] = (abs.(B_loc_new[:,ToSwim].-Range_head)).+(Range_head) 
+        B_loc_new[:,ToSwim] = (abs.(B_loc_new[:,ToSwim].-Range[:,1])).+Range[:,1]
         ## 2. mirror back bacteria tumbling out from above
-        B_loc_new[:,ToSwim] = Range_tail.-(abs.(Range_tail.-B_loc_new[:,ToSwim]))
-        B_loc_new
+        B_loc_new[:,ToSwim] = Range[:,2].-(abs.(Range[:,2].-B_loc_new[:,ToSwim]))
     
         ## Evaluate J at new locations
         J_new = [J(B_loc_new[:,i]) for i in ToSwim]
@@ -165,9 +164,9 @@ end
 an d x m matrix whose columns are the desired vectors. <br>
 """
 function RandUnit(Range::Array{Float64,2}, m::Int)
-    d = size(Range,1)
-    Scales = Range[:,2].-Range[:,1]
-    Rand = (rand(d,m).-1/2).*Scales
+    ## d = size(Range,1)
+    ## Scales = Range[:,2].-Range[:,1]
+    Rand = (rand(size(Range,1),m).-1/2).*(Range[:,2].-Range[:,1])
     for k = 1:m
         Rand[:,k]./=norm(Rand[:,k])
     end
